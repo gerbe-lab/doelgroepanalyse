@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="nl-BE">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#282821" />
+    <title>Doelgroepanalyse · Immo Darwin</title>
+    <meta name="description" content="Doelgroepanalyse op basis van leaddata. Vertrouwelijk." />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" crossorigin href="./assets/index-P2OQytC6.css">
+  </head>
+  <body>
+    <!-- Toegangsscherm van de versleutelde build.
+         scripts/versleutel.mjs zet dit blok in dist/index.html. De site zelf zit in een
+         versleuteld pakket en wordt pas ontsleuteld als de juiste code is ingevuld.
+         De opmaak volgt src/components/Gate.tsx. -->
+    <style>
+      #slot {
+        transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+      #slot.open {
+        transform: translateY(-100%);
+      }
+      #slot.snel {
+        transition-duration: 0.5s;
+      }
+      #slot .slot-in {
+        animation: slot-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+      }
+      #slot.herstel .slot-in {
+        visibility: hidden;
+      }
+      @keyframes slot-in {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+
+    <div id="slot" class="fixed inset-0 z-50 flex flex-col overflow-clip bg-donker text-white">
+      <div aria-hidden="true" class="omlijnd omlijnd-wit absolute -bottom-[0.12em] -left-[0.04em] text-[clamp(120px,24vw,380px)]">
+        Doelgroepen
+      </div>
+
+      <header class="relative flex items-start justify-between px-6 pt-6 sm:px-10">
+        <img src="./logo-wit.svg" alt="Immo Darwin" class="h-10 w-auto sm:h-12" />
+        <span class="jf rounded-md bg-white/10 px-3 pb-1.5 text-[13.5px] font-medium text-white/80">Vertrouwelijk</span>
+      </header>
+
+      <main class="relative flex flex-1 items-center px-6 pb-16 sm:px-10">
+        <div class="slot-in w-full max-w-xl">
+          <div class="border-l-[5px] border-oranje pl-6">
+            <p class="kicker">Doelgroepanalyse op basis van leaddata</p>
+            <h1 class="mt-3 text-[clamp(40px,7vw,76px)] font-normal leading-[1.02] tracking-[-0.02em]">
+              <span class="font-bold">Wie belt,</span> wie komt,
+              <br />
+              wie koopt.
+            </h1>
+          </div>
+
+          <form id="slot-form" class="mt-10 pl-[29px]" autocomplete="off">
+            <label for="slot-code" class="text-[15px] text-white/70">Toegangscode</label>
+            <div id="slot-rij" class="mt-2 flex max-w-md gap-2">
+              <div class="relative flex-1">
+                <svg
+                  aria-hidden="true"
+                  class="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+                <input
+                  id="slot-code"
+                  type="password"
+                  autocomplete="off"
+                  placeholder="Vul de code in"
+                  class="h-[52px] w-full rounded-md border border-white/15 bg-white/5 pl-11 pr-4 text-[17px] text-white outline-none transition-colors duration-200 placeholder:text-white/30 focus:border-oranje"
+                />
+              </div>
+              <button id="slot-knop" type="submit" class="knop h-[52px] px-5" aria-label="Open de analyse">
+                <span class="hidden sm:inline">Open</span>
+                <svg
+                  aria-hidden="true"
+                  class="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+            <p id="slot-melding" class="mt-3 h-6 text-[15px] text-oranje" role="status"></p>
+          </form>
+        </div>
+      </main>
+
+      <footer class="relative flex justify-between px-6 pb-6 text-[13px] text-white/65 sm:px-10">
+        <span>Unscripted voor Immo Darwin</span>
+        <span>November 2026</span>
+      </footer>
+    </div>
+
+    <script>
+      // Al ontgrendeld in dit tabblad? Toon het formulier dan niet opnieuw.
+      try {
+        if (sessionStorage.getItem("id-sleutel")) document.getElementById("slot").classList.add("herstel");
+      } catch (e) {}
+    </script>
+
+    <script type="module">
+      const BESTAND = "./assets/inhoud-eddb4351.bin";
+      const ITERATIES = 310000;
+      const OPSLAG = "id-sleutel";
+
+      const slot = document.getElementById("slot");
+      const form = document.getElementById("slot-form");
+      const invoer = document.getElementById("slot-code");
+      const rij = document.getElementById("slot-rij");
+      const knop = document.getElementById("slot-knop");
+      const melding = document.getElementById("slot-melding");
+
+      let pakket;
+      const haalPakket = () =>
+        (pakket ??= fetch(BESTAND).then((r) => {
+          if (!r.ok) throw new Error("pakket");
+          return r.arrayBuffer();
+        }));
+      haalPakket().catch(() => {});
+
+      const naarTekst = (bytes) => btoa(String.fromCharCode(...bytes));
+      const vanTekst = (tekst) => Uint8Array.from(atob(tekst), (c) => c.charCodeAt(0));
+
+      // Leidt de sleutel af uit de code (PBKDF2) met de salt uit het pakket
+      async function sleutelUitCode(code) {
+        const salt = new Uint8Array(await haalPakket()).subarray(0, 16);
+        const basis = await crypto.subtle.importKey("raw", new TextEncoder().encode(code), "PBKDF2", false, [
+          "deriveBits",
+        ]);
+        const bits = await crypto.subtle.deriveBits(
+          { name: "PBKDF2", hash: "SHA-256", salt, iterations: ITERATIES },
+          basis,
+          256,
+        );
+        return new Uint8Array(bits);
+      }
+
+      // Ontsleutelt het pakket; een foute sleutel geeft een fout (AES-GCM controleert dat zelf)
+      async function ontsleutel(ruw) {
+        const buf = new Uint8Array(await haalPakket());
+        const sleutel = await crypto.subtle.importKey("raw", ruw, "AES-GCM", false, ["decrypt"]);
+        const klaar = await crypto.subtle.decrypt({ name: "AES-GCM", iv: buf.subarray(16, 28) }, sleutel, buf.subarray(28));
+        return new TextDecoder().decode(klaar);
+      }
+
+      async function start(broncode, snel) {
+        window.__ontgrendeld = true;
+        const url = URL.createObjectURL(new Blob([broncode], { type: "text/javascript" }));
+        await import(url);
+        URL.revokeObjectURL(url);
+        // Geef de site even tijd om te tekenen en schuif dan het scherm weg
+        await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+        if (snel) slot.classList.add("snel");
+        slot.classList.add("open");
+        const weg = () => slot.remove();
+        slot.addEventListener("transitionend", weg, { once: true });
+        setTimeout(weg, 1400);
+      }
+
+      // Herstel na herladen binnen hetzelfde tabblad
+      let hersteld = false;
+      try {
+        const bewaard = sessionStorage.getItem(OPSLAG);
+        if (bewaard) {
+          await start(await ontsleutel(vanTekst(bewaard)), true);
+          hersteld = true;
+        }
+      } catch (e) {
+        try {
+          sessionStorage.removeItem(OPSLAG);
+        } catch (f) {}
+        slot.classList.remove("herstel");
+      }
+
+      if (!hersteld) {
+        invoer.focus({ preventScroll: true });
+        invoer.addEventListener("input", () => (melding.textContent = ""));
+        rij.addEventListener("animationend", () => (rij.style.animation = ""));
+
+        let bezig = false;
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const code = invoer.value.trim().toLowerCase();
+          if (!code || bezig) return;
+          bezig = true;
+          knop.disabled = true;
+          melding.textContent = "";
+          try {
+            const ruw = await sleutelUitCode(code);
+            const broncode = await ontsleutel(ruw);
+            try {
+              sessionStorage.setItem(OPSLAG, naarTekst(ruw));
+            } catch (f) {}
+            await start(broncode, false);
+          } catch (fout) {
+            const pakketFout = fout && fout.message === "pakket";
+            melding.textContent = pakketFout
+              ? "De inhoud kon niet geladen worden. Herlaad de pagina."
+              : "Die code klopt niet. Probeer opnieuw.";
+            rij.style.animation = "schud .5s cubic-bezier(.36,.07,.19,.97) both";
+            invoer.select();
+            bezig = false;
+            knop.disabled = false;
+          }
+        });
+      }
+    </script>
+
+    <div id="root"></div>
+  </body>
+</html>
